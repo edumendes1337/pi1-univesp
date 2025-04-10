@@ -1,41 +1,31 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { responder } from '../api';
 
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    telefone: "",
-    message: "",
-  });
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [mensagem, setMensagem] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Mensagem enviada por: ${formData.name}`);
+    try {
+      await responder({ nome, email, telefone, mensagem });
+      alert('Mensagem enviada com sucesso!');
+    } catch (err) {
+      alert('Erro ao enviar a mensagem.');
+      console.error(err);
+    }
   };
 
   return (
-    <div>
-      <h2>Formulário de Contato</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Nome:</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-
-        <label>E-mail:</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-
-        <label>Telefone:</label>
-        <input type="text" name="telefone" value={formData.telefone} onChange={handleChange} required />
-
-        <label>Mensagem:</label>
-        <textarea name="message" value={formData.message} onChange={handleChange} required></textarea>
-
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} />
+      <textarea placeholder="Mensagem" value={mensagem} onChange={(e) => setMensagem(e.target.value)} />
+      <button type="submit">Enviar</button>
+    </form>
   );
 };
 
