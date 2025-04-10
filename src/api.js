@@ -16,8 +16,7 @@ export const responder = async (dados) => {
 
 export const getRespostas = async () => {
   const token = localStorage.getItem('token');
-  const res = await api.get('/respostas', {
+  return await api.get('/respostas', {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return res.data;
 };
