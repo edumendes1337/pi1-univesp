@@ -1,19 +1,29 @@
 import "./styles.css";
-import React, { useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ContactForm from "./components/ContactForm";
 import AdminLogin from "./components/AdminLogin";
 
 const App = () => {
-  const [showAdmin, setShowAdmin] = useState(false);
-
   return (
-    <div>
-      <h1>Bem-vindo</h1>
-      <button onClick={() => setShowAdmin(!showAdmin)}>
-        {showAdmin ? "Voltar ao Formulário" : "Área do Administrador"}
-      </button>
-      {showAdmin ? <AdminLogin /> : <ContactForm />}
-    </div>
+    <Router>
+      <div>
+        <h1>Bem-vindo</h1>
+        <nav>
+          <Link to="/">
+            <button>Formulário</button>
+          </Link>
+          <Link to="/admin">
+            <button>Área do Administrador</button>
+          </Link>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<ContactForm />} />
+          <Route path="/admin" element={<AdminLogin />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
